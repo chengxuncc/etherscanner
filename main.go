@@ -86,8 +86,16 @@ func downloadSourceCode(address string) {
 }
 
 func saveSourceCode(dir string, result SourceCodeResult) error {
+	_, err := os.Stat(dir)
+	if err == nil {
+		err = os.RemoveAll(dir)
+		if err != nil {
+			return err
+		}
+		fmt.Println(dir, "removed existing contract code")
+	}
 	name := result.ContractName
-	err := os.MkdirAll(dir, 0755)
+	err = os.MkdirAll(dir, 0755)
 	if err != nil {
 		return err
 	}
@@ -119,7 +127,11 @@ func saveSourceCode(dir string, result SourceCodeResult) error {
 			return err
 		}
 		for solName, code := range sss.Sources {
-			err = saveFile(path.Join(dir, solName), code.Content)
+			if strings.HasPrefix(solName, "@") {
+				err = saveFile(path.Join(dir, "node_modules", solName), code.Content)
+			} else {
+				err = saveFile(path.Join(dir, solName), code.Content)
+			}
 			if err != nil {
 				return err
 			}
