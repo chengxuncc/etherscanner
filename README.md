@@ -1,6 +1,6 @@
 # Etherscanner
 
-Etherscan contract code downloader
+Etherscan contract source code downloader
 
 ## LICENSE
 

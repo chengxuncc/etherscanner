@@ -119,7 +119,7 @@ func saveSourceCode(dir string, result SourceCodeResult) error {
 			return err
 		}
 		for solName, code := range sss.Sources {
-			err = saveFile(path.Join(dir, solName+".sol"), code.Content)
+			err = saveFile(path.Join(dir, solName), code.Content)
 			if err != nil {
 				return err
 			}
